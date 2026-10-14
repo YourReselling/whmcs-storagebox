@@ -1,0 +1,1143 @@
+{
+  "storagebox": {
+    "slug": "storagebox",
+    "create": {
+      "method": "POST",
+      "path": "/products/storagebox/order",
+      "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:102",
+      "required_fields": [
+        "friendly",
+        "size_gb"
+      ],
+      "response_id_path": "data.id",
+      "body": {
+        "type": "object",
+        "properties": {
+          "friendly": {
+            "type": "string",
+            "maxLength": 255,
+            "example": "Mein Backup Storage",
+            "x-validation": [
+              "required",
+              "string",
+              "max:255"
+            ],
+            "x-validation-expressions": []
+          },
+          "location_id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true,
+            "description": "Location UUID, oder null für Auto-Select",
+            "x-validation": [
+              "nullable",
+              "uuid",
+              "exists:pbs_storage_locations,id"
+            ],
+            "x-validation-expressions": []
+          },
+          "size_gb": {
+            "type": "integer",
+            "minimum": 500,
+            "maximum": 20000,
+            "example": 500,
+            "x-validation": [
+              "required",
+              "integer",
+              "min:500",
+              "max:20000"
+            ],
+            "x-validation-expressions": []
+          },
+          "speed": {
+            "type": "integer",
+            "enum": [
+              100,
+              250,
+              500
+            ],
+            "example": 100,
+            "description": "Optional, wird per PATCH nach Provisioning gesetzt",
+            "nullable": true,
+            "x-validation": [
+              "nullable",
+              "integer",
+              "in:100,250,500"
+            ],
+            "x-validation-expressions": []
+          }
+        },
+        "additionalProperties": true,
+        "required": [
+          "friendly",
+          "size_gb"
+        ]
+      },
+      "bodyRequired": true,
+      "pathParameters": [],
+      "query": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "permissions": [
+        "storagebox:create"
+      ],
+      "responseMode": "json"
+    },
+    "termination": {
+      "method": "DELETE",
+      "path": "/products/storagebox/{datastore}/delete",
+      "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:273",
+      "semantics": "terminate datastore",
+      "body": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "bodyRequired": false,
+      "pathParameters": [
+        {
+          "name": "datastore",
+          "type": "string",
+          "description": "datastore"
+        }
+      ],
+      "query": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "permissions": [
+        "storagebox:delete"
+      ],
+      "responseMode": "json"
+    },
+    "suspend": null,
+    "unsuspend": null,
+    "notes": [
+      "size_gb500..20000; optional location_id; speed100/250/500",
+      "No suspend/unsuspend endpoint"
+    ],
+    "displayName": "StorageBox",
+    "module": "yourresellingstoragebox",
+    "show": {
+      "id": "GET /products/storagebox/{datastore}",
+      "group": "storagebox",
+      "name": "get",
+      "method": "GET",
+      "path": "/products/storagebox/{datastore}",
+      "summary": "Get StorageBox datastore details",
+      "description": "Returns full datastore details including PBS connection credentials and SSH/SFTP password.",
+      "germanSummary": "StorageBox Datastore Details abrufen",
+      "permissions": [
+        "storagebox:read"
+      ],
+      "authenticated": true,
+      "pathParameters": [
+        {
+          "name": "datastore",
+          "type": "string",
+          "description": "datastore"
+        }
+      ],
+      "query": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "body": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "bodyRequired": false,
+      "requestContentType": "application/json",
+      "responseMode": "json",
+      "responses": [
+        {
+          "status": 200,
+          "description": "Datastore details",
+          "germanDescription": "Datastore details",
+          "schema": null,
+          "example": null,
+          "contentType": "application/json"
+        }
+      ],
+      "deprecated": false,
+      "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:74",
+      "routeName": "api.storagebox.show"
+    },
+    "showDataPath": "data",
+    "activeStatuses": [
+      "active"
+    ],
+    "views": {
+      "get": {
+        "id": "GET /products/storagebox/{datastore}",
+        "group": "storagebox",
+        "name": "get",
+        "method": "GET",
+        "path": "/products/storagebox/{datastore}",
+        "summary": "Get StorageBox datastore details",
+        "description": "Returns full datastore details including PBS connection credentials and SSH/SFTP password.",
+        "germanSummary": "StorageBox Datastore Details abrufen",
+        "permissions": [
+          "storagebox:read"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "body": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Datastore details",
+            "germanDescription": "Datastore details",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:74",
+        "routeName": "api.storagebox.show"
+      },
+      "aclIndex": {
+        "id": "GET /products/storagebox/{datastore}/acl",
+        "group": "storagebox",
+        "name": "aclIndex",
+        "method": "GET",
+        "path": "/products/storagebox/{datastore}/acl",
+        "summary": "List ACL entries",
+        "description": "",
+        "germanSummary": "ACL-Einträge auflisten",
+        "permissions": [
+          "storagebox:read"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "body": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "List of ACL entries (IP/CIDR whitelist)",
+            "germanDescription": "List of ACL entries (IP/CIDR whitelist)",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:638",
+        "routeName": "api.storagebox.acl.index"
+      },
+      "backupsOverview": {
+        "id": "GET /products/storagebox/{datastore}/backups-overview",
+        "group": "storagebox",
+        "name": "backupsOverview",
+        "method": "GET",
+        "path": "/products/storagebox/{datastore}/backups-overview",
+        "summary": "Get PBS backup snapshots overview",
+        "description": "Returns namespaces, backup groups (VMs/CTs/Hosts), and snapshots in the queried namespace.",
+        "germanSummary": "PBS Backup-Snapshots Übersicht",
+        "permissions": [
+          "storagebox:read"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {
+            "ns": {
+              "description": "Namespace path (empty string = root)",
+              "type": "string"
+            }
+          },
+          "additionalProperties": true,
+          "required": []
+        },
+        "body": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Namespaces, groups, snapshots",
+            "germanDescription": "Namespaces, groups, snapshots",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:365",
+        "routeName": "api.storagebox.backups-overview"
+      },
+      "events": {
+        "id": "GET /products/storagebox/{datastore}/events",
+        "group": "storagebox",
+        "name": "events",
+        "method": "GET",
+        "path": "/products/storagebox/{datastore}/events",
+        "summary": "List recent webhook events",
+        "description": "Returns recent events delivered by remote-backups.com via webhook: backup completions, garbage collection, sync, verification, prune, resize.",
+        "germanSummary": "Letzte Webhook-Events auflisten",
+        "permissions": [
+          "storagebox:read"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {
+            "limit": {
+              "description": "Max events to return (1-200)",
+              "type": "integer",
+              "default": 50
+            }
+          },
+          "additionalProperties": true,
+          "required": []
+        },
+        "body": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Recent events",
+            "germanDescription": "Letzte Events",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:392",
+        "routeName": "api.storagebox.events"
+      },
+      "graph": {
+        "id": "GET /products/storagebox/{datastore}/graph",
+        "group": "storagebox",
+        "name": "graph",
+        "method": "GET",
+        "path": "/products/storagebox/{datastore}/graph",
+        "summary": "Get usage & I/O graph data",
+        "description": "",
+        "germanSummary": "Auslastungs- und I/O-Graph abrufen",
+        "permissions": [
+          "storagebox:read"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {
+            "range": {
+              "description": "hour|day|week|month|decade",
+              "type": "string",
+              "default": "day"
+            }
+          },
+          "additionalProperties": true,
+          "required": []
+        },
+        "body": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Time-series data points",
+            "germanDescription": "Time-series data points",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:299",
+        "routeName": "api.storagebox.graph"
+      },
+      "immutableBackupsIndex": {
+        "id": "GET /products/storagebox/{datastore}/immutable-backups",
+        "group": "storagebox",
+        "name": "immutableBackupsIndex",
+        "method": "GET",
+        "path": "/products/storagebox/{datastore}/immutable-backups",
+        "summary": "Get immutable backup config",
+        "description": "",
+        "germanSummary": "Immutable Backups Status",
+        "permissions": [
+          "storagebox:read"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "body": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Immutable backup configuration",
+            "germanDescription": "Immutable backup configuration",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:699",
+        "routeName": "api.storagebox.immutable-backups.index"
+      },
+      "namespacesIndex": {
+        "id": "GET /products/storagebox/{datastore}/namespaces",
+        "group": "storagebox",
+        "name": "namespacesIndex",
+        "method": "GET",
+        "path": "/products/storagebox/{datastore}/namespaces",
+        "summary": "List namespaces",
+        "description": "",
+        "germanSummary": "Namespaces auflisten",
+        "permissions": [
+          "storagebox:read"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "body": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "List of namespaces",
+            "germanDescription": "List of namespaces",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:573",
+        "routeName": "api.storagebox.namespaces.index"
+      },
+      "optimalTime": {
+        "id": "GET /products/storagebox/{datastore}/optimal-time",
+        "group": "storagebox",
+        "name": "optimalTime",
+        "method": "GET",
+        "path": "/products/storagebox/{datastore}/optimal-time",
+        "summary": "Get optimal backup time slots",
+        "description": "",
+        "germanSummary": "Optimale Backup-Zeiten abrufen",
+        "permissions": [
+          "storagebox:read"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "body": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Top 3 low-traffic time slots",
+            "germanDescription": "Top 3 low-traffic time slots",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:322",
+        "routeName": "api.storagebox.optimal-time"
+      },
+      "replicationIndex": {
+        "id": "GET /products/storagebox/{datastore}/replication",
+        "group": "storagebox",
+        "name": "replicationIndex",
+        "method": "GET",
+        "path": "/products/storagebox/{datastore}/replication",
+        "summary": "Get geo-replication status",
+        "description": "",
+        "germanSummary": "Geo-Replikation Status",
+        "permissions": [
+          "storagebox:read"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "body": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Replication status (factor, destinations, sync times)",
+            "germanDescription": "Replication status (factor, destinations, sync times)",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:788",
+        "routeName": "api.storagebox.replication.index"
+      },
+      "rescaleLog": {
+        "id": "GET /products/storagebox/{datastore}/rescale-log",
+        "group": "storagebox",
+        "name": "rescaleLog",
+        "method": "GET",
+        "path": "/products/storagebox/{datastore}/rescale-log",
+        "summary": "Get rescale history",
+        "description": "",
+        "germanSummary": "Rescale-Historie abrufen",
+        "permissions": [
+          "storagebox:read"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "body": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "List of manual + automatic rescale events",
+            "germanDescription": "List of manual + automatic rescale events",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:342",
+        "routeName": "api.storagebox.rescale-log"
+      },
+      "sftpList": {
+        "id": "GET /products/storagebox/{datastore}/sftp",
+        "group": "storagebox",
+        "name": "sftpList",
+        "method": "GET",
+        "path": "/products/storagebox/{datastore}/sftp",
+        "summary": "List SFTP directory",
+        "description": "Lists the contents of a remote directory via direct SFTP connection.",
+        "germanSummary": "SFTP-Verzeichnis auflisten",
+        "permissions": [
+          "storagebox:read"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "description": "Relative path (empty = root)",
+              "type": "string"
+            }
+          },
+          "additionalProperties": true,
+          "required": []
+        },
+        "body": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Directory listing with type/size/modified",
+            "germanDescription": "Directory listing with type/size/modified",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:870",
+        "routeName": "api.storagebox.sftp.list"
+      }
+    },
+    "controls": {
+      "namespacesStore": {
+        "id": "POST /products/storagebox/{datastore}/namespaces",
+        "group": "storagebox",
+        "name": "namespacesStore",
+        "method": "POST",
+        "path": "/products/storagebox/{datastore}/namespaces",
+        "summary": "Create namespace",
+        "description": "",
+        "germanSummary": "Namespace erstellen",
+        "permissions": [
+          "storagebox:update"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "parent": {
+              "type": "string",
+              "example": "/",
+              "x-validation": [
+                "required",
+                "string"
+              ],
+              "x-validation-expressions": []
+            },
+            "name": {
+              "type": "string",
+              "example": "vms",
+              "maxLength": 100,
+              "x-validation": [
+                "required",
+                "string",
+                "max:100",
+                "regex:/^[a-zA-Z0-9_\\-]+$/"
+              ],
+              "x-validation-expressions": []
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "name",
+            "parent"
+          ]
+        },
+        "bodyRequired": true,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Namespace created (returns UPID)",
+            "germanDescription": "Namespace created (returns UPID)",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:592",
+        "routeName": "api.storagebox.namespaces.store",
+        "label": "Namespace erstellen"
+      },
+      "pruneUpdate": {
+        "id": "PUT /products/storagebox/{datastore}/prune",
+        "group": "storagebox",
+        "name": "pruneUpdate",
+        "method": "PUT",
+        "path": "/products/storagebox/{datastore}/prune",
+        "summary": "Update prune / retention schedule",
+        "description": "",
+        "germanSummary": "Prune / Retention konfigurieren",
+        "permissions": [
+          "storagebox:update"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "keep_last": {
+              "type": "integer",
+              "minimum": 0,
+              "nullable": true,
+              "x-validation": [
+                "nullable",
+                "integer",
+                "min:0"
+              ],
+              "x-validation-expressions": []
+            },
+            "keep_hourly": {
+              "type": "integer",
+              "minimum": 0,
+              "nullable": true,
+              "x-validation": [
+                "nullable",
+                "integer",
+                "min:0"
+              ],
+              "x-validation-expressions": []
+            },
+            "keep_daily": {
+              "type": "integer",
+              "minimum": 0,
+              "nullable": true,
+              "x-validation": [
+                "nullable",
+                "integer",
+                "min:0"
+              ],
+              "x-validation-expressions": []
+            },
+            "keep_weekly": {
+              "type": "integer",
+              "minimum": 0,
+              "nullable": true,
+              "x-validation": [
+                "nullable",
+                "integer",
+                "min:0"
+              ],
+              "x-validation-expressions": []
+            },
+            "keep_monthly": {
+              "type": "integer",
+              "minimum": 0,
+              "nullable": true,
+              "x-validation": [
+                "nullable",
+                "integer",
+                "min:0"
+              ],
+              "x-validation-expressions": []
+            },
+            "keep_yearly": {
+              "type": "integer",
+              "minimum": 0,
+              "nullable": true,
+              "x-validation": [
+                "nullable",
+                "integer",
+                "min:0"
+              ],
+              "x-validation-expressions": []
+            },
+            "schedule": {
+              "type": "string",
+              "maxLength": 100,
+              "example": "daily",
+              "nullable": true,
+              "x-validation": [
+                "nullable",
+                "string",
+                "max:100"
+              ],
+              "x-validation-expressions": []
+            }
+          },
+          "additionalProperties": true,
+          "required": []
+        },
+        "bodyRequired": false,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Prune settings updated",
+            "germanDescription": "Prune settings updated",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:487",
+        "routeName": "api.storagebox.prune.update",
+        "label": "Backup-Aufbewahrung"
+      },
+      "sftpMkdir": {
+        "id": "POST /products/storagebox/{datastore}/sftp/mkdir",
+        "group": "storagebox",
+        "name": "sftpMkdir",
+        "method": "POST",
+        "path": "/products/storagebox/{datastore}/sftp/mkdir",
+        "summary": "Create directory via SFTP",
+        "description": "",
+        "germanSummary": "Ordner via SFTP anlegen",
+        "permissions": [
+          "storagebox:update"
+        ],
+        "authenticated": true,
+        "pathParameters": [
+          {
+            "name": "datastore",
+            "type": "string",
+            "description": "datastore"
+          }
+        ],
+        "query": {
+          "type": "object",
+          "properties": {},
+          "additionalProperties": true
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Parent directory",
+              "maxLength": 1000,
+              "x-validation": [
+                "required",
+                "string",
+                "max:1000"
+              ],
+              "x-validation-expressions": []
+            },
+            "name": {
+              "type": "string",
+              "maxLength": 200,
+              "x-validation": [
+                "required",
+                "string",
+                "max:200",
+                "regex:/^[a-zA-Z0-9_\\-. ]+$/"
+              ],
+              "x-validation-expressions": []
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "name",
+            "path"
+          ]
+        },
+        "bodyRequired": true,
+        "requestContentType": "application/json",
+        "responseMode": "json",
+        "responses": [
+          {
+            "status": 200,
+            "description": "Directory created",
+            "germanDescription": "Directory created",
+            "schema": null,
+            "example": null,
+            "contentType": "application/json"
+          }
+        ],
+        "deprecated": false,
+        "source": "app/Http/Controllers/Api/V1/StorageBox/StorageBoxApiController.php:961",
+        "routeName": "api.storagebox.sftp.mkdir",
+        "label": "Ordner erstellen"
+      }
+    },
+    "customerFields": [],
+    "fields": [
+      {
+        "name": "friendly",
+        "path": false,
+        "required": true,
+        "label": "Name",
+        "type": "string",
+        "maxLength": 255,
+        "example": "Mein Backup Storage",
+        "x-validation": [
+          "required",
+          "string",
+          "max:255"
+        ],
+        "x-validation-expressions": []
+      },
+      {
+        "name": "size_gb",
+        "path": false,
+        "required": true,
+        "label": "Speicher (GB)",
+        "type": "integer",
+        "minimum": 500,
+        "maximum": 20000,
+        "example": 500,
+        "x-validation": [
+          "required",
+          "integer",
+          "min:500",
+          "max:20000"
+        ],
+        "x-validation-expressions": []
+      },
+      {
+        "name": "location_id",
+        "path": false,
+        "required": false,
+        "label": "Standort-ID",
+        "type": "string",
+        "format": "uuid",
+        "nullable": true,
+        "description": "Location UUID, oder null für Auto-Select",
+        "x-validation": [
+          "nullable",
+          "uuid",
+          "exists:pbs_storage_locations,id"
+        ],
+        "x-validation-expressions": []
+      },
+      {
+        "name": "speed",
+        "path": false,
+        "required": false,
+        "label": "speed",
+        "type": "integer",
+        "enum": [
+          100,
+          250,
+          500
+        ],
+        "example": 100,
+        "description": "Optional, wird per PATCH nach Provisioning gesetzt",
+        "nullable": true,
+        "x-validation": [
+          "nullable",
+          "integer",
+          "in:100,250,500"
+        ],
+        "x-validation-expressions": []
+      }
+    ],
+    "configFields": [
+      {
+        "name": "friendly",
+        "path": false,
+        "required": true,
+        "label": "Name",
+        "type": "string",
+        "maxLength": 255,
+        "example": "Mein Backup Storage",
+        "x-validation": [
+          "required",
+          "string",
+          "max:255"
+        ],
+        "x-validation-expressions": []
+      },
+      {
+        "name": "size_gb",
+        "path": false,
+        "required": true,
+        "label": "Speicher (GB)",
+        "type": "integer",
+        "minimum": 500,
+        "maximum": 20000,
+        "example": 500,
+        "x-validation": [
+          "required",
+          "integer",
+          "min:500",
+          "max:20000"
+        ],
+        "x-validation-expressions": []
+      },
+      {
+        "name": "location_id",
+        "path": false,
+        "required": false,
+        "label": "Standort-ID",
+        "type": "string",
+        "format": "uuid",
+        "nullable": true,
+        "description": "Location UUID, oder null für Auto-Select",
+        "x-validation": [
+          "nullable",
+          "uuid",
+          "exists:pbs_storage_locations,id"
+        ],
+        "x-validation-expressions": []
+      },
+      {
+        "name": "speed",
+        "path": false,
+        "required": false,
+        "label": "speed",
+        "type": "integer",
+        "enum": [
+          100,
+          250,
+          500
+        ],
+        "example": 100,
+        "description": "Optional, wird per PATCH nach Provisioning gesetzt",
+        "nullable": true,
+        "x-validation": [
+          "nullable",
+          "integer",
+          "in:100,250,500"
+        ],
+        "x-validation-expressions": []
+      }
+    ]
+  }
+}
